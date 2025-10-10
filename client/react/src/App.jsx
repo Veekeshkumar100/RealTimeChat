@@ -4,14 +4,23 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Login from './page/Authentication/Login';
 import SignUp from './page/Authentication/signUp';
 import Home from './page/Home/Home';
-import  {useSelectore} from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from 'react';
+
+import { loginUserThunk } from './slice/user/user.thunk.js';
+
+  
 
 
 
 function App(){
-   const reduxdata= useSelectore((state)=state);
-  console.log(reduxdata);
+const data = useSelector(state=>state);
+const dispatch =useDispatch();
 
+console.log(data)
+useEffect(()=>{
+dispatch(loginUserThunk())
+},[])
 
  const router=createBrowserRouter([
   {
