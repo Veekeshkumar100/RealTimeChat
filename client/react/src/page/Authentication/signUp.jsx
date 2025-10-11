@@ -1,10 +1,9 @@
 
-
-import React, { useState } from 'react'
 import { MdOutlineEmail } from "react-icons/md";
 import { IoIosKey } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { useState } from "react";
 
 const SignUp = () => {
   const [signUp,setsignUp]=useState({
@@ -42,9 +41,9 @@ const SignUp = () => {
 <IoIosKey />
   <input type="password"  name="confirmPassword" placeholder='******' value={signUp.confirmPassword}  className="grow"  onChange={handleInputChange}/>
 </label>
-<button type='text' className='bg-blue-400 rounded-lg p-2 font-semibold'>Login</button>
+<button type='text' className='bg-blue-400 rounded-lg p-2 font-semibold'>SignUp</button>
    <p> 
-    Don,t have a account? <Link className='text-blue-400 underline ' to="/signUp">signUp</Link>
+    Don,t have a account? <Link className='text-blue-400 underline ' to="/login">login</Link>
    </p>
     
     </div>

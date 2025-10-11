@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { MdOutlineEmail } from "react-icons/md";
 import { IoIosKey } from "react-icons/io";
 import { Link } from 'react-router-dom';
+import { FaUser } from "react-icons/fa";
 const Login = () => {
   const [login,setLogin]=useState({
-    email:"",
+    userName:"",
     password:"",
   })
     const handleInputChange=(e)=>{
@@ -18,9 +19,9 @@ const Login = () => {
     <div className='flex flex-col max-w-[20rem] w-full gap-2 bg-base-200 p-6 rounded-lg'> 
       <p className='text-xl mb-2'>Please login here..</p>
     <label className="input input-bordered flex items-center gap-2">
-<MdOutlineEmail />
+<FaUser />
 
-  <input type="text" name="email" value={login.email} className="grow w-full" placeholder="Email" onChange={handleInputChange} />
+  <input type="text" name="userName" value={login.userName} className="grow w-full" placeholder="User Name" onChange={handleInputChange} />
 </label>
 
 <label className="input input-bordered flex items-center gap-2">
