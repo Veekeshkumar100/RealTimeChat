@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import { ApiError } from "../utils/apiError.js";
-
+import {ApiResponce} from "../utils/apiResponce.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudnary } from "../utils/cloudnary.js";
 
@@ -93,11 +93,23 @@ const loginUser = asyncHandler(async (req, res, next) => {
 });
  const getUserProfile=asyncHandler(async(req,res,next)=>{
   const user=await User.findById(req.user.id).select("-password");
-
+ 
   if(!user){
-    return next(new ApiError(404,"User not found"))
+   return next( new ApiError(400,"user doesnt found"))
+
   }
-  res.status(200).json(new ApiResponse(201,user,"User profile fetched successfully"));
+  res.status(200).json({user});
+ })
+
+
+export const getOtherUser=asyncHandler(async(req,res,next)=>{
+   const getOtherUser= await User.find({_id:{$ne:req.user._id}});
+  
+   if(!getOtherUser){
+     return next( new ApiError(400,"users doesn't found"))
+   }
+
+   res.status(200).json({message:"users found",getOtherUser});
  })
 
 export { registerUser, loginUser,getUserProfile };
