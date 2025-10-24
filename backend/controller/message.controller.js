@@ -1,41 +1,55 @@
 
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/mesaage.model.js";
-impo
-import { asyncHandler } from "../utils/asyncHandler";
+import { ApiError } from "../utils/apiError.js";
 
-
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const sendMessage=asyncHandler(async(req ,res,next)=>{
     const senderId=req.user._id;
-    const recieverId=req.params.recieverId;
+    const receiverId=req.params.receiverId;
     const message=req.body.message;
-
-    if(!senderId || !recieverId || message ){
+    if(!senderId || !receiverId || !message ){
    return next(new ApiError(404,"All the field are required"));
     }
 
-    let conversation= await Conversation.findOne({
-      members:{$all:[senderId,recieverId]}      
-    });
-
-    if(!conversation){
-       conversation= new  Conversation({
-          members:[senderId,recieverId],
-       })
-    }
-
-
-
     const newmessage =  await Message.create({
         senderId,
-        recieverId,
+        receiverId,
         message,
     })
+    console.log(
+        "newmessage",newmessage
+    )
+    
+    let conversation= await Conversation.findOne({
+      members:{$all:[senderId,receiverId]}      
+    });
+    if(!conversation){
+       conversation= await  Conversation.create({
+          members:[senderId,receiverId],
+       })
+    }
     conversation.message.push(newmessage._id);
     await conversation.save();
-
-    res.status(201).json({message:"message send succesfully",messageData})
+  console.log("conversation",conversation);
+    res.status(201).json({message:"message send succesfully",newmessage})
 
 }
 )
+
+export const getMessages= asyncHandler(async(req,res,next)=>{
+    const senderId=req.user._id;
+    const otherPartisipentId=req.params.otherPartisipentId;
+
+    if(!senderId || !otherPartisipentId){
+        return next(new ApiError(404,"All the field are required"));
+    }
+
+    const conversations= await Conversation.findOne({
+        members:{$all:[senderId,otherPartisipentId]}
+    }).populate("message");
+
+    res.status(200).json({message:"convesation fetched succesfully",conversations});
+
+})

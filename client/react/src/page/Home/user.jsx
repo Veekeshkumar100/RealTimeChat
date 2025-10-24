@@ -2,7 +2,7 @@ import React from 'react'
 
 const UserProfile = () => {
 return (
-    <div className="flex items-center gap-4 p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer">
+    <div className="flex items-center gap-4 p-4 rounded-lg shadow hover:shadow-md transition-shadow cursor-pointer">
         <div className="avatar offline">
             <div className="w-14 h-14 rounded-full border-2 border-blue-400 overflow-hidden">
                 <img
@@ -13,7 +13,7 @@ return (
             </div>
         </div>
         <div>
-            <h2 className="text-base font-semibold text-gray-800 line-clamp-1">Veekesh Kumar Gola</h2>
+            <h2 className="text-base font-semibold  line-clamp-1">Veekesh Kumar Gola</h2>
             <p className="text-xs text-gray-500 italic">user name</p>
         </div>
     </div>

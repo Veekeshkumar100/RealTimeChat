@@ -1,11 +1,14 @@
 import {  createSlice} from "@reduxjs/toolkit";
-import { loginUserThunk } from "./user.thunk";
+import { loginUserThunk, logoutUserThunk, registerUserThunk } from "./user.thunk";
+
 
  const userSlice =createSlice({
     name:"user",
     initialState:{
-        isLogedin:false,
+        isAuthenticate:false,
         screenLoading:false,
+        userData:null,
+        buttonLoading:false,
     },
    reducers:{
     LoginUser:()=>{
@@ -14,19 +17,48 @@ import { loginUserThunk } from "./user.thunk";
     
    },
    extraReducers: (builder) => {
-builder
+    //logn in user
+    builder
 .addCase(loginUserThunk.pending, (state) => {
- console.log("pending")
+    state.buttonLoading=true;
 })
-.addCase(loginUserThunk.fulfilled, (state, action) => {
- console.log("fulfilled")
+builder.addCase(loginUserThunk.fulfilled, (state, action) => {
+   state.isAuthenticate=true;
+   state.userData=action.payload;
+ 
 })
-.addCase(loginUserThunk.rejected, (state, action) => {
-    console.log("reject")
+builder.addCase(loginUserThunk.rejected, (state, action) => {
+     state.buttonLoading=false;
+     
+});
+//register user
+builder.addCase(registerUserThunk.pending, (state) => {
+    state.buttonLoading=true;
+})
+builder.addCase(registerUserThunk.fulfilled, (state, action) => {
+   state.isAuthenticate=true;
+   state.userData=action.payload;
+   console.log(action.payload);
+ 
+})
+builder.addCase(registerUserThunk.rejected, (state, action) => {
+     state.buttonLoading=false;
+     
+});
+//logout user
+builder.addCase(logoutUserThunk.pending, (state) => {
+    state.buttonLoading=true;
+})
+builder.addCase(logoutUserThunk.fulfilled, (state, action) => {
+   state.isAuthenticate=false;
+  
+ 
+})
+builder.addCase(logoutUserThunk.rejected, (state, action) => {
+     state.buttonLoading=false;
+     
 });
 },
-
-
 })
 
 

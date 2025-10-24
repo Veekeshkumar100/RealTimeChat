@@ -1,8 +1,9 @@
 import User from "../models/user.model.js";
 import { ApiError } from "../utils/apiError.js";
-import {ApiResponce} from "../utils/apiResponce.js";
+
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudnary } from "../utils/cloudnary.js";
+import bcrypt  from "bcryptjs";
 
 const generateToken = async (id) => {
   const user = await User.findById(id);
@@ -15,8 +16,10 @@ const generateToken = async (id) => {
 };
 
 const registerUser = asyncHandler(async (req, res, next) => {
+  console.log(req.body);
   const { fullName, userName, password, gender } = req.body;
   //  Here, you would typically add logic to save the user to your database
+  console.log(req.body);
   if (!fullName || !userName || !password) {
     return next(new ApiError(400, "All fields are required"));
   }
@@ -65,17 +68,22 @@ const registerUser = asyncHandler(async (req, res, next) => {
 });
 
 const loginUser = asyncHandler(async (req, res, next) => {
+  console.log("req body",req.body);
+  
   const { userName, password } = req.body;
   console.log("Login attempt:", { userName, password });
 
   if (!userName || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
-  const user = await User.findOne({ userName });
+  const user = await User.findOne({ userName })
+  console.log(user);
   if (!user) {
     return res.status(400).json({ message: "user not found" });
   }
-  const isMatch = await user.matchPassword(password);
+  // const isMatch = await user.matchPassword(password);
+ const  isMatch= await bcrypt.compare(password,user.password);
+  console.log("password",isMatch);
   if (!isMatch) {
     return res.status(400).json({ message: "Invalid credentials" });
   }
@@ -84,12 +92,12 @@ const loginUser = asyncHandler(async (req, res, next) => {
   return res
     .cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       sameSite: "none",
       maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
     })
     .status(200)
-    .json({ message: "Login successful", token });
+    .json({ message: "Login successful",user, token,success:true });
 });
  const getUserProfile=asyncHandler(async(req,res,next)=>{
   const user=await User.findById(req.user.id).select("-password");
