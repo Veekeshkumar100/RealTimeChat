@@ -4,7 +4,7 @@ import {  setUserMessageData } from '../../slice/user/user.slice'
 
 const UserProfile = ({_id,fullName,userName,avatar}) => {
       const dispatch=useDispatch()
-        const {setUserMessage }=useSelector(state=>state.userReducer);
+        // const {setUserMessage }=useSelector(state=>state.userReducer);
     //   console.log(userDetail);
     const handleMassageToggle=()=>{
          dispatch(setUserMessageData({_id,fullName,userName,avatar}));

@@ -1,7 +1,5 @@
 import {  createSlice} from "@reduxjs/toolkit";
 import { getOtherUser, getUserProfile, loginUserThunk, logoutUserThunk, registerUserThunk } from "./user.thunk";
-
-
  const userSlice =createSlice({
     name:"user",
     initialState:{

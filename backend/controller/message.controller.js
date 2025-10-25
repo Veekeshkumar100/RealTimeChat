@@ -8,9 +8,9 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 export const sendMessage=asyncHandler(async(req ,res,next)=>{
     const senderId=req.user._id;
     const receiverId=req.params.receiverId;
-    const message=req.body.message;
+      const message=req.body.message;
     if(!senderId || !receiverId || !message ){
-   return next(new ApiError(404,"All the field are required"));
+      return next(new ApiError(404,"All the field are required"));
     }
 
     const newmessage =  await Message.create({

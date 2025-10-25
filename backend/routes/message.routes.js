@@ -5,7 +5,7 @@ import { getMessages, sendMessage } from '../controller/message.controller.js';
 
 const messageRouter =express.Router();
 
-messageRouter.post("/send/:receiverId",jwtVerify,sendMessage)
+messageRouter.post("/sendMessage/:receiverId",jwtVerify,sendMessage)
 messageRouter.get("/get-message/:otherPartisipentId",jwtVerify,getMessages)
 
 
