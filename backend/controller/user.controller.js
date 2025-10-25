@@ -99,6 +99,15 @@ const loginUser = asyncHandler(async (req, res, next) => {
     .status(200)
     .json({ message: "Login successful",user, token,success:true });
 });
+const logoutUser=asyncHandler(async(req,res,next)=>{
+  // Clear the authentication cookie and respond
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure:true,
+    sameSite: "none",
+  });
+  return res.status(200).json({ message: "Logout successful", success: true });
+})
  const getUserProfile=asyncHandler(async(req,res,next)=>{
   const user=await User.findById(req.user.id).select("-password");
  
@@ -120,4 +129,4 @@ export const getOtherUser=asyncHandler(async(req,res,next)=>{
    res.status(200).json({message:"users found",getOtherUser});
  })
 
-export { registerUser, loginUser,getUserProfile };
+export { registerUser, loginUser,logoutUser,getUserProfile };

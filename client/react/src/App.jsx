@@ -1,21 +1,35 @@
 
 import './App.css'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, RouterProvider, } from "react-router-dom";
 import Login from './page/Authentication/Login';
 import SignUp from './page/Authentication/signUp';
 import Home from './page/Home/Home';
 
 
-import { Toaster } from 'react-hot-toast'; 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';import ProtectedRoutes from './component/utility/protectedRoutes';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { getUserProfile } from './slice/user/user.thunk';
+ 'react-hot-toast';
 
 
 function App(){
+const dispatch=useDispatch();
 
+useEffect(()=>{
+ (async() => {
+     await dispatch(getUserProfile());
+     
+})();
+})
 
  const router=createBrowserRouter([
   {
     path:"/",
-    element:<Home/>
+    element: <ProtectedRoutes>
+      <Home/>
+      </ProtectedRoutes> 
+   
   },
   {
     path:"/login",

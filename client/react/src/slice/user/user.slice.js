@@ -1,20 +1,22 @@
 import {  createSlice} from "@reduxjs/toolkit";
-import { loginUserThunk, logoutUserThunk, registerUserThunk } from "./user.thunk";
+import { getOtherUser, getUserProfile, loginUserThunk, logoutUserThunk, registerUserThunk } from "./user.thunk";
 
 
  const userSlice =createSlice({
     name:"user",
     initialState:{
         isAuthenticate:false,
-        screenLoading:false,
+        screenLoading:true,
+        otherUserDetail:null,
+        setUserMessage:null,
         userData:null,
         buttonLoading:false,
     },
    reducers:{
-    LoginUser:()=>{
-        console.log("welcom");
-    },
-    
+    setUserMessageData:(state,action)=>{
+        console.log(action);
+         state.setUserMessage=action.payload;
+    }
    },
    extraReducers: (builder) => {
     //logn in user
@@ -25,7 +27,7 @@ import { loginUserThunk, logoutUserThunk, registerUserThunk } from "./user.thunk
 builder.addCase(loginUserThunk.fulfilled, (state, action) => {
    state.isAuthenticate=true;
    state.userData=action.payload;
- 
+
 })
 builder.addCase(loginUserThunk.rejected, (state, action) => {
      state.buttonLoading=false;
@@ -38,7 +40,8 @@ builder.addCase(registerUserThunk.pending, (state) => {
 builder.addCase(registerUserThunk.fulfilled, (state, action) => {
    state.isAuthenticate=true;
    state.userData=action.payload;
-   console.log(action.payload);
+  
+
  
 })
 builder.addCase(registerUserThunk.rejected, (state, action) => {
@@ -58,9 +61,36 @@ builder.addCase(logoutUserThunk.rejected, (state, action) => {
      state.buttonLoading=false;
      
 });
+//getuser profile
+builder.addCase(getUserProfile.pending, (state) => {
+    state.screenLoading=true;
+})
+builder.addCase(getUserProfile.fulfilled, (state, action) => {
+    state.screenLoading=false;
+   state.isAuthenticate=true;
+   
+})
+builder.addCase(getUserProfile.rejected, (state, action) => {
+     state.screenLoading=false;
+
+});
+//get other user 
+builder.addCase(getOtherUser.pending, (state) => {
+    state.screenLoading=true;
+})
+builder.addCase(getOtherUser.fulfilled, (state, action) => {
+    state.screenLoading=false;    
+ 
+     state.otherUserDetail=action.payload?.getOtherUser;
+
+})
+builder.addCase(getOtherUser.rejected, (state, action) => {
+     state.screenLoading=false;
+
+});
 },
 })
 
 
-export const {LoginUser}= userSlice.actions;
+export const {setUserMessageData}= userSlice.actions;
 export default userSlice.reducer;

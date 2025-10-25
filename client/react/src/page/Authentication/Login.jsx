@@ -1,15 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { IoIosKey } from "react-icons/io";
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
 
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { loginUserThunk } from '../../slice/user/user.thunk';
 
 const Login = () => {
   const navigat=useNavigate();
   const dispatch=useDispatch();
+      const {isAuthenticate}=useSelector(state=>state.userReducer);
+
+useEffect(()=>{
+   if(isAuthenticate){
+       navigat("/")
+      }
+},[isAuthenticate]);
+
+     
   const [login,setLogin]=useState({
     userName:"",
     password:"",
@@ -20,10 +29,10 @@ const Login = () => {
 
     const handleformsubmit=async ()=>{
       const response=await dispatch(loginUserThunk(login));
-     if(response.payload.success){
-        navigat("/")
-     }
-    
+      console.log(response);
+      if(response.payload.success){
+        navigat("/");
+      }
     }
 
     

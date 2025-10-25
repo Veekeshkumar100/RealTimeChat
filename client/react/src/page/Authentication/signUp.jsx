@@ -3,14 +3,21 @@ import { MdOutlineEmail } from "react-icons/md";
 import { IoIosKey } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {registerUserThunk} from'../../slice/user/user.thunk' 
 import toast from "react-hot-toast";
 
 const SignUp = () => {
   const navigat= useNavigate();
   const dispatch=useDispatch();
+       const {isAuthenticate}=useSelector(state=>state.userReducer);
+
+useEffect(()=>{
+   if(isAuthenticate){
+       navigat("/")
+      }
+},[]);
   const [signUp,setsignUp]=useState({
     fullName:"",
     userName:"",
