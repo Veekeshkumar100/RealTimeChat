@@ -6,14 +6,14 @@ import { getOtherUser, getUserProfile, loginUserThunk, logoutUserThunk, register
         isAuthenticate:false,
         screenLoading:true,
         otherUserDetail:null,
-        setUserMessage:null,
+        setUserMessage:JSON.parse(localStorage.getItem("receiver")),
         userData:null,
         buttonLoading:false,
     },
    reducers:{
     setUserMessageData:(state,action)=>{
-        console.log(action);
-         state.setUserMessage=action.payload;
+        state.setUserMessage=action.payload;
+        localStorage.setItem("receiver",JSON.stringify(action.payload));
     }
    },
    extraReducers: (builder) => {
@@ -24,7 +24,7 @@ import { getOtherUser, getUserProfile, loginUserThunk, logoutUserThunk, register
 })
 builder.addCase(loginUserThunk.fulfilled, (state, action) => {
    state.isAuthenticate=true;
-   state.userData=action.payload;
+  
 
 })
 builder.addCase(loginUserThunk.rejected, (state, action) => {
@@ -38,9 +38,6 @@ builder.addCase(registerUserThunk.pending, (state) => {
 builder.addCase(registerUserThunk.fulfilled, (state, action) => {
    state.isAuthenticate=true;
    state.userData=action.payload;
-  
-
- 
 })
 builder.addCase(registerUserThunk.rejected, (state, action) => {
      state.buttonLoading=false;
@@ -49,12 +46,16 @@ builder.addCase(registerUserThunk.rejected, (state, action) => {
 //logout user
 builder.addCase(logoutUserThunk.pending, (state) => {
     state.buttonLoading=true;
+
 })
 builder.addCase(logoutUserThunk.fulfilled, (state, action) => {
    state.isAuthenticate=false;
-  
- 
-})
+        state.otherUserDetail=null;
+        state.userData=null;
+        state.setUserMessage=null,
+        localStorage.clear()
+ })
+
 builder.addCase(logoutUserThunk.rejected, (state, action) => {
      state.buttonLoading=false;
      
@@ -66,7 +67,8 @@ builder.addCase(getUserProfile.pending, (state) => {
 builder.addCase(getUserProfile.fulfilled, (state, action) => {
     state.screenLoading=false;
    state.isAuthenticate=true;
-   
+    state.userData=action.payload;
+ 
 })
 builder.addCase(getUserProfile.rejected, (state, action) => {
      state.screenLoading=false;

@@ -3,28 +3,27 @@ import { IoSearch } from "react-icons/io5";
 import UserProfile from './user';
 import {useDispatch, useSelector} from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { getOtherUser, logoutUserThunk } from "../../slice/user/user.thunk";
+import { getOtherUser, getUserProfile, logoutUserThunk } from "../../slice/user/user.thunk";
 import { useEffect } from "react";
+
 
 
 const UserSideBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const {otherUserDetail}=useSelector(state=>state.userReducer);
-   console.log(otherUserDetail);
-
+  const {otherUserDetail,userData}=useSelector(state=>state.userReducer);
+  console.log(userData);
   useEffect(()=>{
     (async()=>{
       await dispatch(getOtherUser())
+      await dispatch(getUserProfile())
     
     })();
   },[])
-      
 
   const handleLogout = async () => {
 
-    const responce = await dispatch(logoutUserThunk());
+  await dispatch(logoutUserThunk());
 
     navigate("/login");
   }
@@ -40,18 +39,22 @@ const UserSideBar = () => {
       </div>
       <div className='h-full  overflow-y-auto flex flex-col gap-3'>
         {otherUserDetail?.map((userDetail)=>{
-          const {_id,fullName,userName,avatar}=userDetail;
 
-           return  <UserProfile key={userDetail?._id} _id={_id} fullName={fullName} userName={userName} avatar={avatar}/>
+           return  <UserProfile key={userDetail?._id} userDetail={userDetail}/>
         })}
        
       </div>
 
       <div className='bg-[#191E24] p-2 rounded-lg flex justify-between items-center'>
         <div className="avatar">
-          <div className="ring-primary ring-offset-base-100 w-12 rounded-full ring ring-offset-2">
-            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+           <div className="flex items-start gap-2">
+          <div className="ring-primary ring-offset-base-100 w-12 rounded-full ring ring-offset-2 ">
+            <img src={userData.user.avatar} />
           </div>
+          <div>
+             <h2>{userData.user.fullName}</h2>
+             </div>
+        </div>
         </div>
         <button onClick={handleLogout} className="btn btn-primary btn-sm">Logout</button>
       </div>

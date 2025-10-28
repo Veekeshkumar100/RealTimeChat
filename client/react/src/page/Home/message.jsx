@@ -1,9 +1,17 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 
-const Message = () => {
-  return (
+
+const Messages = ({messages}) => {
+      
+    const {message}=messages;
+  const {userData} = useSelector((state) => state.userReducer);
   
-       <div class="chat chat-start">
+
+
+  return (
+    <>
+  <div class={`chat chat-start ${userData?._id===message.senderId ? "chat-end" :"chat-start"}`}>
   <div class="chat-image avatar">
     <div class="w-10 rounded-full">
       <img
@@ -12,14 +20,15 @@ const Message = () => {
     </div>
   </div>
   <div class="chat-header">
-    Obi-Wan Kenobi
-    <time class="text-xs opacity-50">12:45</time>
+
+    
   </div>
-  <div class="chat-bubble">You were the Chosen One!</div>
-  <div class="chat-footer opacity-50">Delivered</div>
+  <div class="chat-bubble">{message}</div>
+
 </div>
- 
+
+  </>
   )
 }
 
-export default Message
+export default Messages

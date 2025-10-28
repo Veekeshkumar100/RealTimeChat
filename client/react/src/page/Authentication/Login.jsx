@@ -29,7 +29,7 @@ useEffect(()=>{
 
     const handleformsubmit=async ()=>{
       const response=await dispatch(loginUserThunk(login));
-      console.log(response);
+    
       if(response.payload.success){
         navigat("/");
       }

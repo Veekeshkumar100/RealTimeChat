@@ -1,6 +1,6 @@
 import React from 'react'
-import UserSideBar from './userSideBar.jsx'
-import ChatSideBar from './chatSideBar.jsx'
+import UserSideBar from './userSideBar.jsx';
+import ChatSideBar from './chatSideBar.jsx';
 
 const Home = () => {
   return (

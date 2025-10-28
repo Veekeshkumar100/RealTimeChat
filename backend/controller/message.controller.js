@@ -6,9 +6,11 @@ import { ApiError } from "../utils/apiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const sendMessage=asyncHandler(async(req ,res,next)=>{
+      
     const senderId=req.user._id;
     const receiverId=req.params.receiverId;
-      const message=req.body.message;
+    const message=req.body.message;
+    console.log("veee",req.body,req.params);
     if(!senderId || !receiverId || !message ){
       return next(new ApiError(404,"All the field are required"));
     }
@@ -41,15 +43,20 @@ export const sendMessage=asyncHandler(async(req ,res,next)=>{
 export const getMessages= asyncHandler(async(req,res,next)=>{
     const senderId=req.user._id;
     const otherPartisipentId=req.params.otherPartisipentId;
+      console.log(senderId)
+   console.log(otherPartisipentId);
+  if (!senderId || !otherPartisipentId) {
+    return next(new ApiError(400, "Both participant IDs are required"));
+  }
 
-    if(!senderId || !otherPartisipentId){
-        return next(new ApiError(404,"All the field are required"));
-    }
+  const conversation = await Conversation.findOne({
+    members: { $all: [senderId, otherPartisipentId] }
+  }).populate("message");
 
-    const conversations= await Conversation.findOne({
-        members:{$all:[senderId,otherPartisipentId]}
-    }).populate("message");
+  if (!conversation) {
+    return res.status(200).json({ status: "success", messages: [] });
+  }
 
-    res.status(200).json({message:"convesation fetched succesfully",conversations});
+  res.status(200).json({ status: "success", messages: conversation.message || [] });
 
 })

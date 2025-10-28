@@ -7,7 +7,7 @@ const ProtectedRoutes = ({children}) => {
     const {isAuthenticate,screenLoading}=useSelector(state=>state.userReducer);
  
 useEffect(()=>{
-  console.log(isAuthenticate,screenLoading);
+
   if(!isAuthenticate && !screenLoading) navigate("/login");   
 
 },[isAuthenticate,screenLoading])

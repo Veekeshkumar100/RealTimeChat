@@ -23,8 +23,7 @@ export const loginUserThunk= createAsyncThunk("user/login", async({userName,pass
 export const getUserProfile= createAsyncThunk("user/get-userProfile", async(_,{rejectWithValue})=>{
  try {
 
-    const response = await axiosInstance.get("/users/profile");
-
+   const  response=await axiosInstance.get("/users/profile");
     return response.data;
  } catch (error) {
     console.log(error);

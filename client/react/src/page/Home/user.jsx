@@ -1,15 +1,13 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {  setUserMessageData } from '../../slice/user/user.slice'
-
-const UserProfile = ({_id,fullName,userName,avatar}) => {
+// {_id,fullName,userName,avatar}
+const UserProfile = ({userDetail}) => {
       const dispatch=useDispatch()
-        // const {setUserMessage }=useSelector(state=>state.userReducer);
-    //   console.log(userDetail);
+        const {_id,fullName,userName,avatar}=userDetail;  
     const handleMassageToggle=()=>{
          dispatch(setUserMessageData({_id,fullName,userName,avatar}));
-    }
-        
+    }     
 return (
     <div className={`flex items-center gap-4 p-2 rounded-lg shadow  transition-shadow cursor-pointer hover:bg-gray-700 `} onClick={handleMassageToggle}>
         <div className="avatar offline">
