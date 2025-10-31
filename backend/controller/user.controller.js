@@ -47,6 +47,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
     gender,
     avatar: avatar.url,
   });
+  
   const userCreated = await newUser.save();
 
   const token = await generateToken(userCreated._id);

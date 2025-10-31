@@ -10,6 +10,7 @@ const chatSideBar = () => {
   const [message,setMessage]=useState("")
   const { setUserMessage } = useSelector((state) => state.userReducer);
   const { usersMessage } = useSelector((state) => state.messageReducer);
+
   const dispatch = useDispatch();
   useEffect(() => {
     (async()=>{
@@ -18,7 +19,8 @@ const chatSideBar = () => {
   }, [setUserMessage]);
 
   const handelDispatch=async()=>{
-     dispatch(sendMessage({recieverId:setUserMessage?._id,message}));  
+     dispatch(sendMessage({recieverId:setUserMessage?._id,message})); 
+     setMessage("") 
  
   }
   return (
@@ -37,7 +39,7 @@ const chatSideBar = () => {
            {
          
             usersMessage?.map((message,index)=>{
-              return <Messages key={index} messages={message} setUserMessage={setUserMessage}  />
+              return <Messages key={index} messages={message}   />
             })
            }
      

@@ -54,7 +54,6 @@ useEffect(()=>{
          
      const responce=await dispatch(registerUserThunk(Object.fromEntries(formData)));
       if(responce.payload.success){
-        
      navigat("/")
       }
   }

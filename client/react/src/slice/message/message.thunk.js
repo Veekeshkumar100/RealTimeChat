@@ -7,6 +7,7 @@ export const sendMessage=createAsyncThunk("sendMessage",async(data,{rejectWithVa
     try {
        const {recieverId,message}=data;
         const response = await axiosInstance.post(`message/sendMessage/${recieverId}`,{message});
+        console.log(response);
  return response.data       
         
     } catch (error) {

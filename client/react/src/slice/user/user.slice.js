@@ -7,7 +7,7 @@ import { getOtherUser, getUserProfile, loginUserThunk, logoutUserThunk, register
         screenLoading:true,
         otherUserDetail:null,
         setUserMessage:JSON.parse(localStorage.getItem("receiver")),
-        userData:null,
+        userData:JSON.parse(localStorage.getItem("userProfile")),
         buttonLoading:false,
     },
    reducers:{
@@ -24,11 +24,13 @@ import { getOtherUser, getUserProfile, loginUserThunk, logoutUserThunk, register
 })
 builder.addCase(loginUserThunk.fulfilled, (state, action) => {
    state.isAuthenticate=true;
-  
+   
 
 })
 builder.addCase(loginUserThunk.rejected, (state, action) => {
      state.buttonLoading=false;
+     console.log(action.payload);
+     state.userData=JSON.parse(localStorage.getItem("userProfile"))
      
 });
 //register user
@@ -38,10 +40,10 @@ builder.addCase(registerUserThunk.pending, (state) => {
 builder.addCase(registerUserThunk.fulfilled, (state, action) => {
    state.isAuthenticate=true;
    state.userData=action.payload;
+   localStorage.setItem("userProfile",JSON.stringify(action.payload));
 })
 builder.addCase(registerUserThunk.rejected, (state, action) => {
-     state.buttonLoading=false;
-     
+     state.buttonLoading=false;   
 });
 //logout user
 builder.addCase(logoutUserThunk.pending, (state) => {
@@ -52,8 +54,7 @@ builder.addCase(logoutUserThunk.fulfilled, (state, action) => {
    state.isAuthenticate=false;
         state.otherUserDetail=null;
         state.userData=null;
-        state.setUserMessage=null,
-        localStorage.clear()
+        state.setUserMessage=null
  })
 
 builder.addCase(logoutUserThunk.rejected, (state, action) => {
@@ -80,13 +81,11 @@ builder.addCase(getOtherUser.pending, (state) => {
 })
 builder.addCase(getOtherUser.fulfilled, (state, action) => {
     state.screenLoading=false;    
- 
      state.otherUserDetail=action.payload?.getOtherUser;
 
 })
 builder.addCase(getOtherUser.rejected, (state, action) => {
      state.screenLoading=false;
-
 });
 },
 })

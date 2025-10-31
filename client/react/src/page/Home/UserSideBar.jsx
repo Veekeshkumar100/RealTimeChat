@@ -12,7 +12,7 @@ const UserSideBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {otherUserDetail,userData}=useSelector(state=>state.userReducer);
-  console.log(userData);
+
   useEffect(()=>{
     (async()=>{
       await dispatch(getOtherUser())
@@ -45,15 +45,13 @@ const UserSideBar = () => {
        
       </div>
 
-      <div className='bg-[#191E24] p-2 rounded-lg flex justify-between items-center'>
-        <div className="avatar">
-           <div className="flex items-start gap-2">
+      <div className='bg-[#191E24] p-3 rounded-lg flex justify-between items-center'>
+        <div className=" ">
+           <div className=" avatar  w-full flex items-center gap-3 ">
           <div className="ring-primary ring-offset-base-100 w-12 rounded-full ring ring-offset-2 ">
             <img src={userData.user.avatar} />
           </div>
-          <div>
-             <h2>{userData.user.fullName}</h2>
-             </div>
+          <h2> {userData.user.fullName}</h2>
         </div>
         </div>
         <button onClick={handleLogout} className="btn btn-primary btn-sm">Logout</button>

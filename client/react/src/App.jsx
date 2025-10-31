@@ -15,7 +15,6 @@ import { getUserProfile } from './slice/user/user.thunk';
 
 function App(){
 const dispatch=useDispatch();
-
 useEffect(()=>{
  (async() => {
      await dispatch(getUserProfile());

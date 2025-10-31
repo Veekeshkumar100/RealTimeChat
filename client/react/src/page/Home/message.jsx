@@ -1,34 +1,23 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
-
-
 const Messages = ({messages}) => {
-      
-    const {message}=messages;
-  const {userData} = useSelector((state) => state.userReducer);
-  
-
-
+  const {userData,setUserMessage} = useSelector((state) => state.userReducer);
   return (
     <>
-  <div class={`chat chat-start ${userData?._id===message.senderId ? "chat-end" :"chat-start"}`}>
+  <div class={`chat chat-start ${userData?.user._id===messages.senderId ? "chat-end" :"chat-start"}`}>
   <div class="chat-image avatar">
     <div class="w-10 rounded-full">
       <img
         alt="Tailwind CSS chat bubble component"
-        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+        src={userData?.user._id===messages.senderId ? `${userData?.user.avatar}` : `${setUserMessage.avatar}`} />
     </div>
   </div>
   <div class="chat-header">
-
-    
   </div>
-  <div class="chat-bubble">{message}</div>
-
-</div>
-
+  <div class="chat-bubble">{messages.message}</div> 
+ </div>
   </>
   )
 }
 
-export default Messages
+export default Messages;

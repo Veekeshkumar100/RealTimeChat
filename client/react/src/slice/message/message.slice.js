@@ -5,7 +5,7 @@ export const messageSlice=createSlice({
     name:"message",
     initialState:{
         screenLoading:false,
-        usersMessage:[],
+        usersMessage:null,
     },
     reducers:{
 
@@ -16,7 +16,8 @@ export const messageSlice=createSlice({
            state.screenLoading=true;
        })
        builder.addCase(getMessages.fulfilled, (state, action) => {
-           state.screenLoading=false;    
+           state.screenLoading=false;   
+          
             state.usersMessage=action.payload.messages;
        })
        builder.addCase(getMessages.rejected, (state, action) => {
@@ -28,9 +29,10 @@ export const messageSlice=createSlice({
            state.screenLoading=true;
        })
        builder.addCase(sendMessage.fulfilled, (state, action) => {
-           state.screenLoading=false;    
            console.log(action.payload);  
-           state.usersMessage=[...state.usersMessage,action.payload.newmessage]
+           const oldmessage=state.usersMessage ?? [];
+              state.usersMessage=[...oldmessage,action.payload.newmessage]
+           state.screenLoading=false;    
        })
        builder.addCase(sendMessage.rejected, (state, action) => {
             state.screenLoading=false;
