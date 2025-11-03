@@ -1,10 +1,9 @@
+import {app,io,server} from "./socket/socket.js";
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
+
 import connectDB from './db/db.js';
 import cookieParser from "cookie-parser"
-dotenv.config();
-import {app,io,server} from "./socket/socket.js";
 
 app.use(cors({
     origin: ["http://localhost:5173"],

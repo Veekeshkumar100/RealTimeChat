@@ -6,10 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMessages, sendMessage } from "../../slice/message/message.thunk";
 import { useEffect } from "react";
 import Messages from "./message";
+import { messageState } from "../../slice/message/message.slice";
+
+
 const chatSideBar = () => {
   const [message,setMessage]=useState("")
   const { setUserMessage } = useSelector((state) => state.userReducer);
   const { usersMessage } = useSelector((state) => state.messageReducer);
+  const { socket } = useSelector((state) => state.socketReducer);
+
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -20,8 +25,9 @@ const chatSideBar = () => {
 
   const handelDispatch=async()=>{
      dispatch(sendMessage({recieverId:setUserMessage?._id,message})); 
-     setMessage("") 
- 
+     setMessage(""); 
+   
+
   }
   return (
     <>

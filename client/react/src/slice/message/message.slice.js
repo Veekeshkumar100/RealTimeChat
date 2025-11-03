@@ -8,7 +8,11 @@ export const messageSlice=createSlice({
         usersMessage:null,
     },
     reducers:{
-
+        messageState:(state,action)=>{
+            console.log(action.payload);
+              const oldmessages=state.usersMessage ?? [];
+            state.usersMessage=[... oldmessages,action.payload];
+        }
     },
     extraReducers: (builder)=>{
        //get message 
@@ -29,7 +33,7 @@ export const messageSlice=createSlice({
            state.screenLoading=true;
        })
        builder.addCase(sendMessage.fulfilled, (state, action) => {
-           console.log(action.payload);  
+         
            const oldmessage=state.usersMessage ?? [];
               state.usersMessage=[...oldmessage,action.payload.newmessage]
            state.screenLoading=false;    
@@ -39,5 +43,5 @@ export const messageSlice=createSlice({
           });
     }
 })
-export const {}= messageSlice.actions;
+export const {messageState}= messageSlice.actions;
 export default messageSlice.reducer;

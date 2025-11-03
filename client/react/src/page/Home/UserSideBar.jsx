@@ -4,7 +4,7 @@ import UserProfile from './user';
 import {useDispatch, useSelector} from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { getOtherUser, getUserProfile, logoutUserThunk } from "../../slice/user/user.thunk";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 
 
 
@@ -12,7 +12,8 @@ const UserSideBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {otherUserDetail,userData}=useSelector(state=>state.userReducer);
-
+    
+  
   useEffect(()=>{
     (async()=>{
       await dispatch(getOtherUser())
@@ -22,9 +23,7 @@ const UserSideBar = () => {
   },[])
 
   const handleLogout = async () => {
-
   await dispatch(logoutUserThunk());
-
     navigate("/login");
   }
 
@@ -51,7 +50,7 @@ const UserSideBar = () => {
           <div className="ring-primary ring-offset-base-100 w-12 rounded-full ring ring-offset-2 ">
             <img src={userData.user.avatar} />
           </div>
-          <h2> {userData.user.fullName}</h2>
+          <h2> {userData?.user.fullName}</h2>
         </div>
         </div>
         <button onClick={handleLogout} className="btn btn-primary btn-sm">Logout</button>
